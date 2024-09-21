@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const app = express();
+const dotenv = require("dotenv");
 
 // require ('dotenv').config();
 const port = process.env.PORT || 8000;
@@ -26,6 +27,10 @@ app.use(cookieParser());
 app.set("view engine", "ejs");
 app.set("views", "./views");
 
+// DB 
+dotenv.config();
+const DB = process.env.DB_URL;
+
 // mongo-store is used to store session cookies in database
 app.use(
   session({
@@ -37,8 +42,7 @@ app.use(
       maxAge: 1000 * 60 * 100,
     },
     store: MongoStore.create({
-      mongoUrl:
-        "mongodb+srv://nazimnn459:OmO9gknXwYO54IA6@cluster0.iz9lwls.mongodb.net/",
+      mongoUrl: DB,
       autoRemove: "disabled",
     }),
     function(err) {
